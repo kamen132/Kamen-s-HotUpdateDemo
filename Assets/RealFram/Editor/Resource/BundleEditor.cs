@@ -21,6 +21,8 @@ public class BundleEditor
     //储存所有有效路径
     private static List<string> m_ConfigFil = new List<string>();
 
+    private static string m_VersionMd5Path = Application.dataPath + "/../Version/" + EditorUserBuildSettings.activeBuildTarget.ToString();
+
     [MenuItem("Tools/打包")]
     public static void Build()
     {
@@ -116,6 +118,17 @@ public class BundleEditor
             }
             string ABMD5Path = Application.dataPath + "/Resources/ABMD5.bytes";
             BinarySerializeOpt.BinarySerilize(ABMD5Path, abmd5);
+            //将版本拷贝到外部进行存储
+            if (!Directory.Exists(m_VersionMd5Path))
+            {
+                Directory.CreateDirectory(m_VersionMd5Path);
+            }
+            string targetPath = m_VersionMd5Path + "/ABMD5_" + PlayerSettings.bundleVersion + ".bytes";
+            if (File.Exists(targetPath))
+            {
+                File.Delete(targetPath);
+            }
+            File.Copy(ABMD5Path, targetPath);
         }
     }
 
