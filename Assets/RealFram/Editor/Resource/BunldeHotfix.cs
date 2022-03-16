@@ -14,6 +14,8 @@ public class BunldeHotfix : EditorWindow
    }
 
    private string md5Path = "";
+   //纪录热更次数
+   private string hotCount = "1";
    private OpenFileName m_OpenFileName = null;
    private void OnGUI()
    {
@@ -37,6 +39,20 @@ public class BunldeHotfix : EditorWindow
             md5Path = m_OpenFileName.file;
          }
       }
+      GUILayout.EndHorizontal();
+      
+     
+      GUILayout.BeginHorizontal();
+      //热更次数
+      hotCount = EditorGUILayout.TextField("热更补丁版本：", hotCount, GUILayout.Width(350), GUILayout.Height(20));
+      if (GUILayout.Button("开始打热更宝",GUILayout.Width(100),GUILayout.Height(50)))
+      {
+         if (!string.IsNullOrEmpty(md5Path)&&md5Path.EndsWith(".bytes"))
+         {
+            BundleEditor.Build(true, md5Path, hotCount);
+         }
+      }
+      
       GUILayout.EndHorizontal();
    }
 }

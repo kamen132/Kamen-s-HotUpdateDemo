@@ -22,9 +22,12 @@ public class BundleEditor
     private static List<string> m_ConfigFil = new List<string>();
 
     private static string m_VersionMd5Path = Application.dataPath + "/../Version/" + EditorUserBuildSettings.activeBuildTarget.ToString();
+    //储存读出来的MD5信息
+    private static Dictionary<string,ABMD5Base> m_PackedMd5=new Dictionary<string, ABMD5Base>();
+    
 
     [MenuItem("Tools/打包")]
-    public static void Build()
+    public static void Build(bool hotFix=false,string abmd5path="",string hotCount="1")
     {
         DataEditor.AllXmlToBinary();
         m_ConfigFil.Clear();
@@ -94,12 +97,65 @@ public class BundleEditor
             AssetDatabase.RemoveAssetBundleName(oldABNames[i], true);
             EditorUtility.DisplayProgressBar("清除AB包名", "名字：" + oldABNames[i], i * 1.0f / oldABNames.Length);
         }
-        WriteABMD5();
+
+        if (hotFix)
+        {
+            
+        }
+        else
+        {
+            WriteABMD5();
+        }
+        
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         EditorUtility.ClearProgressBar();
     }
 
+   #region Update
+
+    static void ReadMd5Com(string abmd5Path, string hotCount)
+    {
+        m_PackedMd5.Clear();
+        using (FileStream fs=new FileStream(abmd5Path,FileMode.Open,FileAccess.Read))
+        {
+            BinaryFormatter bf=new BinaryFormatter();
+            ABMD5 abmd5=bf.Deserialize(fs) as ABMD5;
+            foreach (var data in abmd5.ABMD5List)
+            {
+                m_PackedMd5.Add(data.Name, data);
+            }
+        }
+
+        List<string> changeList = new List<string>();
+        DirectoryInfo directoryInfo = new DirectoryInfo(m_BunleTargetPath);
+        FileInfo[] fileInfos = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
+        for (int i = 0; i < fileInfos.Length; i++)
+        {
+            if (!fileInfos[i].Name.EndsWith(".meta")&&!fileInfos[i].Name.EndsWith(".manifest"))
+            {
+                string name = fileInfos[i].Name;
+                string md5 = MD5Manager.Instance.BuildFileMd5(fileInfos[i].FullName);
+
+                ABMD5Base abmd5Base = null;
+                if (!m_PackedMd5.ContainsKey(name))
+                {
+                    changeList.Add(name);
+                }
+                else
+                {
+                    if (m_PackedMd5.TryGetValue(name, out abmd5Base))
+                    {
+                        if (md5!=abmd5Base.Md5)
+                        {
+                            changeList.Add(name);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     static void WriteABMD5()
     {
         DirectoryInfo directoryInfo = new DirectoryInfo(m_BunleTargetPath);
@@ -131,6 +187,9 @@ public class BundleEditor
             File.Copy(ABMD5Path, targetPath);
         }
     }
+
+  #endregion
+    
 
     static void SetABName(string name, string path)
     {
