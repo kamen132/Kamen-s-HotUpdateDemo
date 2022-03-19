@@ -10,6 +10,9 @@ using UnityEngine.Profiling;
 public class BundleEditor
 {
     private static string m_BunleTargetPath = Application.dataPath+"/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString();
+    
+    private static string m_HotPath = Application.dataPath+"/../Hot/" + EditorUserBuildSettings.activeBuildTarget.ToString();
+    
     private static string ABCONFIGPATH = "Assets/RealFram/Editor/Resource/ABConfig.asset";
     private static string ABBYTEPATH = RealConfig.GetRealFram().m_ABBytePath;
     //key是ab包名，value是路径，所有文件夹ab包dic
@@ -100,7 +103,8 @@ public class BundleEditor
 
         if (hotFix)
         {
-            
+            //筛选md5不同的文件
+            ReadMd5Com(abmd5path, hotCount);
         }
         else
         {
@@ -113,7 +117,7 @@ public class BundleEditor
     }
 
    #region Update
-
+    
     static void ReadMd5Com(string abmd5Path, string hotCount)
     {
         m_PackedMd5.Clear();
@@ -154,8 +158,54 @@ public class BundleEditor
                 }
             }
         }
+
+        CopyAndGeneratXml(changeList, hotCount);
+    }
+    /// <summary>
+    /// 拷贝筛选的AB包 及自动生成服务器的配置表
+    /// </summary>
+    /// <param name="changeList"></param>
+    /// <param name="hotCount"></param>
+    static void CopyAndGeneratXml(List<string> changeList,string hotCount)
+    {
+        if (!Directory.Exists(m_HotPath))
+        {
+            Directory.CreateDirectory(m_HotPath);
+        }
+        DeletAllFile(m_HotPath);
+        foreach (var str in changeList)
+        {
+            if (!str.EndsWith(".manifest"))
+            {
+                File.Copy(m_BunleTargetPath + "/" + str, m_HotPath + "/"+str);
+            }
+        }
+        
+        //生成服务器的配置表 Patch  获取m_HotPath所有的文件信息
+        DirectoryInfo directory = new DirectoryInfo(m_HotPath);
+        FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
+        Patches patches=new Patches();
+        patches.Version = 1;
+        patches.Files = new List<Patch>();
+        for (int i = 0; i < files.Length; i++)
+        {
+            Patch patch=new Patch();
+            patch.MD5 = MD5Manager.Instance.BuildFileMd5(files[i].FullName);
+            patch.Name = files[i].Name;
+            //大小  多少M
+            patch.Size = files[i].Length / 1024.0f;
+            //平台
+            patch.Platform = EditorUserBuildSettings.activeBuildTarget.ToString();
+            patch.Url = "" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
+            patches.Files.Add(patch);
+        }
+        Debug.LogError("生成差异XML文件  差异文件数量："+ patches.Files.Count);
+        BinarySerializeOpt.Xmlserialize(m_HotPath + "/Patch.xml", patches);
     }
     
+    /// <summary>
+    /// 写入md5
+    /// </summary>
     static void WriteABMD5()
     {
         DirectoryInfo directoryInfo = new DirectoryInfo(m_BunleTargetPath);
@@ -388,5 +438,26 @@ public class BundleEditor
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// 删除指定文件夹下所有的文件
+    /// </summary>
+    /// <returns></returns>
+    public static void DeletAllFile(string fullPath)
+    {
+        if (Directory.Exists(fullPath))
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(fullPath);
+            FileInfo[] files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (files[i].Name.EndsWith(".meta"))
+                {
+                    continue;
+                }
+                File.Delete(files[i].FullName);
+            }
+        }
     }
 }
