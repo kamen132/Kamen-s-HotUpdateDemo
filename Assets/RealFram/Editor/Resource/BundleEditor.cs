@@ -196,7 +196,8 @@ public class BundleEditor
             patch.Size = files[i].Length / 1024.0f;
             //平台
             patch.Platform = EditorUserBuildSettings.activeBuildTarget.ToString();
-            patch.Url = "" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
+            //本地服务器地址
+            patch.Url = "http://127.0.0.1/AssetBundle" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
             patches.Files.Add(patch);
         }
         Debug.LogError("生成差异XML文件  差异文件数量："+ patches.Files.Count);

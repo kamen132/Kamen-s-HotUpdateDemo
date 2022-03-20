@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3016579903
+CRC: 3771015481
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2b3d1d7009063d234bbf944b217aee4f
+    Hash: 487a2a878d6da2270c1058c72b251782
   TypeTreeHash:
     serializedVersion: 2
     Hash: a2f761c5b3bb2d1df45e56af382ee0e6
@@ -54,4 +54,4 @@ Assets:
 - Assets/GameData/Modle/benghuai/Avatar_Kiana_C2_Texture_Hair_Color_Common.png
 - Assets/GameData/Modle/benghuai/Materials/No Name.mat
 Dependencies:
-- I:/AssetBundleAndILR/Assets/../AssetBundle/StandaloneWindows64/shader
+- I:/ABAndILR/UnityAssetBundleAndILR/Assets/../AssetBundle/StandaloneWindows64/shader
