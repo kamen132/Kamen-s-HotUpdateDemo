@@ -113,7 +113,11 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         if (!m_AssetBundleItemDic.TryGetValue(crc, out item))
         {
             AssetBundle assetBundle = null;
-            string fullPath = ABLoadPath + name;
+            //string fullPath = ABLoadPath + name;
+            //獲取ab包路徑
+            string hotABPath = HotPatchManager.Instance.ComputeABPath(name);
+            //如果有熱更的話 走熱更的  如果沒有熱更則走本地AB
+            string fullPath = string.IsNullOrEmpty(hotABPath)? ABLoadPath+name: hotABPath;
             assetBundle = AssetBundle.LoadFromFile(fullPath);
 
             if (assetBundle == null)

@@ -31,6 +31,10 @@ public class HotPatchManager : Singleton<HotPatchManager>
     //所有需要下载的东西dict
     private Dictionary<string, Patch> m_DownLoadDic = new Dictionary<string, Patch>();
 
+    //文件下载失败回调
+    public Action<string> ItemError;
+    //文件完成回调
+    public Action LoadOver;
     //服务器列表获取错误回调
     public Action ServerInfoError;
     
@@ -56,11 +60,30 @@ public class HotPatchManager : Singleton<HotPatchManager>
     /// 需要下载资源的大小  kb
     /// </summary>
     public float LoadSunSize { get; set; } = 0;
+    //当前正在下载的资源
+    public DownLoadAssetBundle m_CurDownLoad = null;
+    
     public void Init(MonoBehaviour mono)
     {
         this.m_Mono = mono;
     }
-    
+
+    /// <summary>
+    /// 計算AB路徑
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public string ComputeABPath(string name)
+    {
+        Patch patch = null;
+        m_HotFixDic.TryGetValue(name, out patch);
+        if (patch!=null)
+        {
+            return m_DownLoadPath + "/" + name;
+        }
+        return "";
+    }
+
     //检查热更  是否有热更
     public void CheckVersion(Action<bool> hotCallBack = null)
     {
@@ -323,23 +346,28 @@ public class HotPatchManager : Singleton<HotPatchManager>
     /// </summary>
     /// <param name="callBack"></param>
     /// <returns></returns>
-    public IEnumerator StartDownLoadAB(Action callBack)
+    public IEnumerator StartDownLoadAB(Action callBack, List<Patch> allPath=null)
     {
         m_AlreadyDownList.Clear();
         m_StartDownLoad = true;
+        if (allPath==null)
+        {
+            allPath = m_DownLoadList;
+        }
         //下载文件夹
         if (!Directory.Exists(m_DownLoadPath))
         {
             Directory.CreateDirectory(m_DownLoadPath);
         }
         List<DownLoadAssetBundle> downLoadAssetBundles = new List<DownLoadAssetBundle>();
-        foreach (var patch in m_DownLoadList)
+        foreach (var patch in allPath)
         {
             downLoadAssetBundles.Add(new DownLoadAssetBundle(patch.Url,m_DownLoadPath));
         }
 
         foreach (var downLoad in downLoadAssetBundles)
         {
+            m_CurDownLoad = downLoad;
             yield return m_Mono.StartCoroutine(downLoad.DownLoad());
             Patch patch = FindPatchByGamePath(downLoad.FileName);
             if (patch!=null)
@@ -389,12 +417,27 @@ public class HotPatchManager : Singleton<HotPatchManager>
                 m_StartDownLoad = false;
                 callBack();
             }
+            if (LoadOver!=null)
+            {
+                LoadOver();
+            }
         }
         else
         {
             if (m_tryDownCount>=DOWNLOADCOUNT)
             {
-                
+                //尝试下载四次之后
+                string allName = "";
+                m_StartDownLoad = false;
+                foreach (var patch in downLoadList)
+                {
+                    allName += patch.Name+";";
+                }
+                Debug.LogError("资源重复下载四次MD5资源校验都失败 请检查资源："+allName);
+                if (ItemError!=null)
+                {
+                    ItemError(allName);
+                }
             }
             else
             {
@@ -405,9 +448,41 @@ public class HotPatchManager : Singleton<HotPatchManager>
                 {
                     m_DownLoadMd5Dic.Add(patch.Name, patch.MD5);
                 }
-                //自动重新下载
+                //自动重新下载  校验失败的文件
+                m_Mono.StartCoroutine(StartDownLoadAB(callBack, downLoadList));
             }
         }
+    }
+
+    /// <summary>
+    /// 获取下载进度
+    /// </summary>
+    /// <returns></returns>
+    public float GetProgress()
+    {
+        // 已下载大小+当前下载大小/总下载大小
+        return GetLoadSize() / LoadSunSize;
+    }
+
+    /// <summary>
+    /// 获取已经下载总大小
+    /// </summary>
+    /// <returns></returns>
+    public float GetLoadSize()
+    {
+        //已经下载的资源大小
+        float alreadySize = m_AlreadyDownList.Sum(x => x.Size);
+        //当前下载的资源
+        float curAlreadySize = 0;
+        if (m_CurDownLoad!=null)
+        {
+            Patch patch = FindPatchByGamePath(m_CurDownLoad.FileName);
+            if (patch!=null&&!m_AlreadyDownList.Contains(patch))
+            {
+                curAlreadySize = m_CurDownLoad.GetProgess()*patch.Size;
+            }
+        }
+        return alreadySize + curAlreadySize;
     }
 
     /// <summary>
@@ -421,6 +496,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
         m_DownLoadDic.TryGetValue(name, out patch);
         return patch;
     }
+    
 }
 public class FileTool
 {
