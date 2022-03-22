@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class GameStart : MonoSingleton<GameStart>
@@ -33,6 +34,7 @@ public class GameStart : MonoSingleton<GameStart>
     {
         UIManager.Instance.Register<MenuUi>(ConStr.MENUPANEL);
         UIManager.Instance.Register<LoadingUi>(ConStr.LOADINGPANEL);
+        UIManager.Instance.Register<HotFixUI>(ConStr.HOTFIXPANEL);
     }
 
     //加载配置表
@@ -55,5 +57,13 @@ public class GameStart : MonoSingleton<GameStart>
         Resources.UnloadUnusedAssets();
         Debug.Log("清空编辑器缓存");
 #endif
+    }
+
+    public static void OpenCommonConfrim(string des,UnityAction confirmActcion,UnityAction CancleAciotn)
+    {
+        GameObject obj=GameObject.Instantiate(Resources.Load("CommonConfigPanel")) as GameObject;
+        obj.transform.SetParent(UIManager.Instance.m_WndRoot, false);
+        CommonHotFix commonHotFix = obj.GetComponent<CommonHotFix>();
+        commonHotFix.Show(des, confirmActcion, CancleAciotn);
     }
 }

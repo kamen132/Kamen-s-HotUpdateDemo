@@ -34,6 +34,8 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 
         m_ResouceItemDic.Clear();
         string configPath = ABLoadPath + m_ABConfigABName;
+        string hotABPath = HotPatchManager.Instance.ComputeABPath(m_ABConfigABName);
+        configPath = string.IsNullOrEmpty(hotABPath) ? configPath : hotABPath;
         AssetBundle configAB = AssetBundle.LoadFromFile(configPath);
         TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
         if (textAsset == null)

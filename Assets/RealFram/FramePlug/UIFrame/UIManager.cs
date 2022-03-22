@@ -13,7 +13,7 @@ public class UIManager : Singleton<UIManager>
     //UI节点
     public RectTransform m_UiRoot;
     //窗口节点
-    private RectTransform m_WndRoot;
+    public RectTransform m_WndRoot;
     //UI摄像机
     private Camera m_UICamera;
     //EventSystem节点

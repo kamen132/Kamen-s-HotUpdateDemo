@@ -89,7 +89,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
     {
         m_tryDownCount = 0;
         m_HotFixDic.Clear();
-        //读取本地版本
+        //读取本地版本 版本
         ReadVersion();
         //读取服务器xml
         m_Mono.StartCoroutine(ReadXml(() =>
