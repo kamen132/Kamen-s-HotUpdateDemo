@@ -20,6 +20,8 @@ public class Window
     //所有Toggle
     protected List<Toggle> m_AllToggle = new List<Toggle>();
 
+    public bool Resouece { get; set; } = false;
+
     public virtual bool OnMessage(UIMsgID msgID, params object[] paralist)
     {
         return true;

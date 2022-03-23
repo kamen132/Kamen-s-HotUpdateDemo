@@ -9,6 +9,13 @@ using UnityEngine.Networking;
 public class HotPatchManager : Singleton<HotPatchManager>
 {
     private string m_CurVersion;
+    /// <summary>
+    /// 当前版本
+    /// </summary>
+    public string CurVersion
+    {
+        get { return m_CurVersion; }
+    }
     //资源下载目录
     private string m_DownLoadPath = Application.persistentDataPath + "/DownLoad";
     public string m_CurPackName;
@@ -19,9 +26,12 @@ public class HotPatchManager : Singleton<HotPatchManager>
     private ServerInfo m_serverInfo;
     private ServerInfo m_LocalInfo;
     private VersionInfo m_GameVersion;
-    
+    public Patches CurrentPatchs
+    {
+        get { return m_CurrentPatches; }
+    }
     //当前热更Patch
-    private Patches m_CurrentPatchs;
+    private Patches m_CurrentPatches;
     
     //所有需要热更的资源
     private Dictionary<string,Patch> m_HotFixDic=new Dictionary<string, Patch>();
@@ -39,12 +49,12 @@ public class HotPatchManager : Singleton<HotPatchManager>
     public Action ServerInfoError;
     
     //服务器的资源名对应的MD5值  用于下载后md5
-    public Dictionary<string, string> m_DownLoadMd5Dic = new Dictionary<string, string>();
+    public Dictionary<string, string> m_DownLoadMD5Dic = new Dictionary<string, string>();
     
     //储存已下载的资源
     public List<Patch> m_AlreadyDownList=new List<Patch>();
     //是否已经开始下载
-    private bool m_StartDownLoad = false;
+    public bool m_StartDownLoad = false;
 
     //尝试重复下载次数
     private int m_tryDownCount = 0;
@@ -152,12 +162,12 @@ public class HotPatchManager : Singleton<HotPatchManager>
     {
         m_DownLoadDic.Clear();
         m_DownLoadList.Clear();
-        if (m_GameVersion != null && m_GameVersion.Pathceses != null & m_GameVersion.Pathceses.Length > 0)
+        if (m_GameVersion != null && m_GameVersion.Patches != null & m_GameVersion.Patches.Length > 0)
         {
-            m_CurrentPatchs = m_GameVersion.Pathceses[m_GameVersion.Pathceses.Length - 1];
-            if (m_CurrentPatchs!=null&&m_CurrentPatchs.Files.Count>0)
+            m_CurrentPatches = m_GameVersion.Patches[m_GameVersion.Patches.Length - 1];
+            if (m_CurrentPatches!=null&&m_CurrentPatches.Files.Count>0)
             {
-                foreach (var patch in m_CurrentPatchs.Files)
+                foreach (var patch in m_CurrentPatches.Files)
                 {
                     if (Application.platform==RuntimePlatform.WindowsPlayer
                         || Application.platform==RuntimePlatform.WindowsEditor&& patch.Platform.Contains("StandaloneWindows64"))
@@ -203,8 +213,8 @@ public class HotPatchManager : Singleton<HotPatchManager>
                 }
             }
         }
-        if (localGameVersion!=null&&m_GameVersion!=null&&localGameVersion.Pathceses!=null&& m_GameVersion.Pathceses.Length>0&&
-            m_GameVersion.Pathceses[m_GameVersion.Pathceses.Length-1].Version!=localGameVersion.Pathceses[localGameVersion.Pathceses.Length-1].Version)
+        if (localGameVersion!=null&&m_GameVersion!=null&&localGameVersion.Patches!=null&& m_GameVersion.Patches.Length>0&&
+            m_GameVersion.Patches[m_GameVersion.Patches.Length-1].Version!=localGameVersion.Patches[localGameVersion.Patches.Length-1].Version)
         {
             return true;
         }
@@ -231,6 +241,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
             FileTool.CreateFile(m_serverXmlPath,request.downloadHandler.data);
             if (File.Exists(m_serverXmlPath))
             {
+                Debug.LogError("开始读取信息啊");
                 m_serverInfo = BinarySerializeOpt.XmlDeserialize(m_serverXmlPath, typeof(ServerInfo)) as ServerInfo;
             }
             else
@@ -269,13 +280,13 @@ public class HotPatchManager : Singleton<HotPatchManager>
     /// </summary>
     private void GetHotAB()
     {
-        if (m_GameVersion!=null&&m_GameVersion.Pathceses!=null&m_GameVersion.Pathceses.Length>0)
+        if (m_GameVersion!=null&&m_GameVersion.Patches!=null&m_GameVersion.Patches.Length>0)
         {
             //最后一次热更包
-            m_CurrentPatchs = m_GameVersion.Pathceses[m_GameVersion.Pathceses.Length - 1];
-            if (m_CurrentPatchs!=null&&m_CurrentPatchs.Files!=null)
+            m_CurrentPatches = m_GameVersion.Patches[m_GameVersion.Patches.Length - 1];
+            if (m_CurrentPatches!=null&&m_CurrentPatches.Files!=null)
             {
-                foreach (var patch in m_CurrentPatchs.Files)
+                foreach (var patch in m_CurrentPatches.Files)
                 {
                     //获取所有需要热更包
                     m_HotFixDic.Add(patch.Name, patch);
@@ -289,30 +300,19 @@ public class HotPatchManager : Singleton<HotPatchManager>
     /// </summary>
     private void ComputeDownload()
     {
-        m_DownLoadDic.Clear();
-        m_DownLoadList.Clear();
-        m_DownLoadMd5Dic.Clear();
-        if (m_GameVersion != null && m_GameVersion.Pathceses != null & m_GameVersion.Pathceses.Length > 0)
-        {
-            m_CurrentPatchs = m_GameVersion.Pathceses[m_GameVersion.Pathceses.Length - 1];
-            if (m_CurrentPatchs!=null&&m_CurrentPatchs.Files.Count>0)
-            {
-                foreach (var patch in m_CurrentPatchs.Files)
-                {
-                    if (Application.platform==RuntimePlatform.WindowsPlayer
-                        || Application.platform==RuntimePlatform.WindowsEditor&& patch.Platform.Contains("StandaloneWindows64"))
-                    {
-                        AddDownLoadList(patch);
-                    }
-                    else if (Application.platform==RuntimePlatform.Android||
-                             Application.platform==RuntimePlatform.Android&&patch.Platform.Contains("Android"))
-                    {
-                        AddDownLoadList(patch);
-                    }
-                    else if (Application.platform==RuntimePlatform.IPhonePlayer
-                             ||Application.platform==RuntimePlatform.IPhonePlayer&&patch.Platform.Contains("IOS"))
-                    {
-                        AddDownLoadList(patch);
+        m_DownLoadList.Clear ();
+        m_DownLoadDic.Clear ();
+        m_DownLoadMD5Dic.Clear ();
+        if (m_GameVersion != null && m_GameVersion.Patches != null && m_GameVersion.Patches.Length > 0) {
+            m_CurrentPatches = m_GameVersion.Patches[m_GameVersion.Patches.Length - 1];
+            if (m_CurrentPatches.Files != null && m_CurrentPatches.Files.Count > 0) {
+                foreach (Patch patch in m_CurrentPatches.Files) {
+                    if ((Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) && patch.Platform.Contains ("StandaloneWindows64")) {
+                        AddDownLoadList (patch);
+                    } else if ((Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WindowsEditor) && patch.Platform.Contains ("Android")) {
+                        AddDownLoadList (patch);
+                    } else if ((Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.WindowsEditor) && patch.Platform.Contains ("IOS")) {
+                        AddDownLoadList (patch);
                     }
                 }
             }
@@ -330,14 +330,14 @@ public class HotPatchManager : Singleton<HotPatchManager>
             {
                 m_DownLoadList.Add(patch);
                 m_DownLoadDic.Add(patch.Name, patch);
-                m_DownLoadMd5Dic.Add(patch.Name, patch.MD5);
+                m_DownLoadMD5Dic.Add(patch.Name, patch.MD5);
             }
         }
         else
         {
             m_DownLoadList.Add(patch);
             m_DownLoadDic.Add(patch.Name, patch);
-            m_DownLoadMd5Dic.Add(patch.Name, patch.MD5);
+            m_DownLoadMD5Dic.Add(patch.Name, patch.MD5);
         }
     }
 
@@ -394,7 +394,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
         foreach (var downLoad in downLoadAssets)
         {
             string md5 = "";
-            if (m_DownLoadMd5Dic.TryGetValue(downLoad.FileName,out md5))
+            if (m_DownLoadMD5Dic.TryGetValue(downLoad.FileName,out md5))
             {
                 //计算md5是否与储存的md5是否一致
                 if (MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath)!=md5)
@@ -411,7 +411,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
         }
         if (downLoadList.Count<=0)
         {
-            m_DownLoadMd5Dic.Clear();
+            m_DownLoadMD5Dic.Clear();
             if (callBack!=null)
             {
                 m_StartDownLoad = false;
@@ -443,10 +443,10 @@ public class HotPatchManager : Singleton<HotPatchManager>
             {
                 //没有的话记性重新下载
                 m_tryDownCount++;
-                m_DownLoadMd5Dic.Clear();
+                m_DownLoadMD5Dic.Clear();
                 foreach (var patch in downLoadList)
                 {
-                    m_DownLoadMd5Dic.Add(patch.Name, patch.MD5);
+                    m_DownLoadMD5Dic.Add(patch.Name, patch.MD5);
                 }
                 //自动重新下载  校验失败的文件
                 m_Mono.StartCoroutine(StartDownLoadAB(callBack, downLoadList));

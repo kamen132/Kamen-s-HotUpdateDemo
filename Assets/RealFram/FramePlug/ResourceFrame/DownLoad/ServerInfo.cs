@@ -1,58 +1,56 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Xml.Serialization;
-
-[System.Serializable]
+/// <summary>
+/// 热更配置文件的数据结构
+/// </summary>
+[Serializable]
 public class ServerInfo
 {
-    [XmlElement("GameVersion")]
-    public VersionInfo[] GameVersion;
-    
+    [XmlElement("GameVersion")] public VersionInfo[] GameVersion;
 }
 
-//当前游戏版本 所有补丁
-[System.Serializable]
+/// <summary>
+/// 当前游戏版本对应的所有补丁
+/// </summary>
+[Serializable]
 public class VersionInfo
 {
-    [XmlAttribute]
-    public string Version;
-
-    //热更包
-    [XmlAttribute]
-    public Patches[] Pathceses;
-
+    //当前游戏的版本号
+    [XmlAttribute] public string Version;
+    //当前版本下的热更包（可能含多个）
+    [XmlElement] public Patches[] Patches;
 }
 
-/// 热更补丁
-[System.Serializable]
+/// <summary>
+/// 所有热更补丁
+/// </summary>
 public class Patches
 {
-    //当前热更的版本号
-    [XmlAttribute]
-    public int Version;
+    //当前热更版本，第几次热更
+    [XmlAttribute] public int Version;
 
-    //热更描述
-    [XmlAttribute]
-    public string Des;
-
+    //热更的描述
+    [XmlAttribute] public string Des;
+    
     //所有的热更文件
-    public List<Patch> Files;
+    [XmlElement] public List<Patch> Files;
 }
 
-// 单个补丁包
-[System.Serializable]
+/// <summary>
+/// 单个补丁包，每个热更包里面包含的文件
+/// </summary>
+[Serializable]
 public class Patch
 {
-    [XmlAttribute]
-    public string Name;
-    [XmlAttribute]
-    public string Url;
-    [XmlAttribute]
-    public string Platform;
-    [XmlAttribute]
-    public string MD5;
-    [XmlAttribute]
-    public float Size;
+    //热更包名
+    [XmlAttribute]public string Name;
+    //需要下载的地址
+    [XmlAttribute]public string Url;
+    //当前的平台
+    [XmlAttribute]public string Platform;
+    //资源的MD5码
+    [XmlAttribute]public string MD5;
+    //资源的大小
+    [XmlAttribute]public float Size;
 }
- 

@@ -159,51 +159,43 @@ public class BundleEditor
             }
         }
 
-        CopyAndGeneratXml(changeList, hotCount);
+        CopyABAndGeneratXml(changeList, hotCount);
     }
     /// <summary>
     /// 拷贝筛选的AB包 及自动生成服务器的配置表
     /// </summary>
     /// <param name="changeList"></param>
     /// <param name="hotCount"></param>
-    static void CopyAndGeneratXml(List<string> changeList,string hotCount)
+    static void CopyABAndGeneratXml(List<string> changeList,string hotCount)
     {
-        if (!Directory.Exists(m_HotPath))
-        {
-            Directory.CreateDirectory(m_HotPath);
+        if (!Directory.Exists (m_HotPath)) {
+            Directory.CreateDirectory (m_HotPath);
         }
         DeletAllFile(m_HotPath);
-        foreach (var str in changeList)
-        {
-            if (!str.EndsWith(".manifest"))
-            {
-                File.Copy(m_BunleTargetPath + "/" + str, m_HotPath + "/"+str);
+        foreach (string str in changeList) {
+            if (!str.EndsWith (".manifest")) {
+                File.Copy (m_BunleTargetPath + "/" + str, m_HotPath + "/" + str);
             }
         }
-        
-        //生成服务器的配置表 Patch  获取m_HotPath所有的文件信息
-        DirectoryInfo directory = new DirectoryInfo(m_HotPath);
-        FileInfo[] files = directory.GetFiles("*", SearchOption.AllDirectories);
-        Patches patches=new Patches();
-        patches.Version = 1;
-        patches.Files = new List<Patch>();
-        for (int i = 0; i < files.Length; i++)
-        {
-            Patch patch=new Patch();
-            patch.MD5 = MD5Manager.Instance.BuildFileMd5(files[i].FullName);
+
+        //生成服务器Patch
+        DirectoryInfo directory = new DirectoryInfo (m_HotPath);
+        FileInfo[] files = directory.GetFiles ("*", SearchOption.AllDirectories);
+        Patches pathces = new Patches ();
+        pathces.Version = 1;
+        pathces.Files = new List<Patch> ();
+        for (int i = 0; i < files.Length; i++) {
+            Patch patch = new Patch ();
+            patch.MD5 = MD5Manager.Instance.BuildFileMd5 (files[i].FullName);
             patch.Name = files[i].Name;
-            //大小  多少M
             patch.Size = files[i].Length / 1024.0f;
-            //平台
-            patch.Platform = EditorUserBuildSettings.activeBuildTarget.ToString();
-            //本地服务器地址
-            patch.Url = "http://127.0.0.1/AssetBundle" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
-            patches.Files.Add(patch);
+            patch.Platform = EditorUserBuildSettings.activeBuildTarget.ToString ();
+            patch.Url = "http://127.0.0.1/hotfix/" + PlayerSettings.bundleVersion + "/" + hotCount + "/" + files[i].Name;
+            pathces.Files.Add (patch);
         }
-        Debug.LogError("生成差异XML文件  差异文件数量："+ patches.Files.Count);
-        BinarySerializeOpt.Xmlserialize(m_HotPath + "/Patch.xml", patches);
+        BinarySerializeOpt.Xmlserialize (m_HotPath + "/Patch.xml", pathces);
     }
-    
+  
     /// <summary>
     /// 写入md5
     /// </summary>

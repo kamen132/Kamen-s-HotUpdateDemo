@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameStart : MonoSingleton<GameStart>
 {
@@ -11,24 +13,36 @@ public class GameStart : MonoSingleton<GameStart>
     {
         base.Awake();
         GameObject.DontDestroyOnLoad(gameObject);
-        AssetBundleManager.Instance.LoadAssetBundleConfig();
         ResourceManager.Instance.Init(this);
         ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
         HotPatchManager.Instance.Init(this);
+        UIManager.Instance.Init(transform.Find("UIRoot") as RectTransform, transform.Find("UIRoot/WndRoot") as RectTransform, transform.Find("UIRoot/UICamera").GetComponent<Camera>(), transform.Find("UIRoot/EventSystem").GetComponent<EventSystem>());
+        RegisterUI();
     }
     // Use this for initialization
     void Start ()
     {
-        LoadConfiger();
 
-        UIManager.Instance.Init(transform.Find("UIRoot") as RectTransform, transform.Find("UIRoot/WndRoot") as RectTransform, transform.Find("UIRoot/UICamera").GetComponent<Camera>(), transform.Find("UIRoot/EventSystem").GetComponent<EventSystem>());
-        RegisterUI();
-
-        GameMapManager.Instance.Init(this);
-        //加载场景
-        GameMapManager.Instance.LoadScene(ConStr.MENUSCENE);
+        UIManager.Instance.PopUpWnd(ConStr.HOTFIXPANEL, resource: true);
     }
 
+    public IEnumerator StartGame(Image image,TextMeshProUGUI text)
+    {
+        image.fillAmount = 0;
+        yield return null;
+        text.text = "加载本地数据中.....";
+        AssetBundleManager.Instance.LoadAssetBundleConfig();
+        image.fillAmount = 0.2f;
+        text.text = "加载数据表.....";
+        LoadConfiger();
+        image.fillAmount = 0.8f;
+        text.text = "Load UI.....";
+       
+        image.fillAmount = 0.9f;
+        text.text = "Load Scene.....";
+        GameMapManager.Instance.Init(this);
+        image.fillAmount = 1;
+    }
     //注册UI窗口
     void RegisterUI()
     {
