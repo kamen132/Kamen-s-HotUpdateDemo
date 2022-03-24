@@ -328,16 +328,16 @@ public class HotPatchManager : Singleton<HotPatchManager>
             string md5 = MD5Manager.Instance.BuildFileMd5(filePath);
             if (patch.MD5!=md5)
             {
-                m_DownLoadList.Add(patch);
-                m_DownLoadDic.Add(patch.Name, patch);
-                m_DownLoadMD5Dic.Add(patch.Name, patch.MD5);
+                m_DownLoadList.Add (patch);
+                m_DownLoadDic.Add (patch.Name, patch);
+                m_DownLoadMD5Dic.Add (patch.Name, patch.MD5);
             }
         }
         else
         {
-            m_DownLoadList.Add(patch);
-            m_DownLoadDic.Add(patch.Name, patch);
-            m_DownLoadMD5Dic.Add(patch.Name, patch.MD5);
+            m_DownLoadList.Add (patch);
+            m_DownLoadDic.Add (patch.Name, patch);
+            m_DownLoadMD5Dic.Add (patch.Name, patch.MD5);
         }
     }
 
@@ -368,7 +368,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
         foreach (var downLoad in downLoadAssetBundles)
         {
             m_CurDownLoad = downLoad;
-            yield return m_Mono.StartCoroutine(downLoad.DownLoad());
+            yield return m_Mono.StartCoroutine(downLoad.DownLoad(()=>{Debug.LogError($"{downLoad.FileName} 下載完成！");}));
             Patch patch = FindPatchByGamePath(downLoad.FileName);
             if (patch!=null)
             {
@@ -397,7 +397,8 @@ public class HotPatchManager : Singleton<HotPatchManager>
             if (m_DownLoadMD5Dic.TryGetValue(downLoad.FileName,out md5))
             {
                 //计算md5是否与储存的md5是否一致
-                if (MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath)!=md5)
+                string checkMD5 = MD5Manager.Instance.BuildFileMd5(downLoad.SaveFilePath);
+                if (checkMD5!=md5)
                 {
                     //不一致重新进行下载
                     Debug.LogError(string.Format("此文件{0} MD5校验失败,即将重新下载",downLoad.FileName));
@@ -479,7 +480,7 @@ public class HotPatchManager : Singleton<HotPatchManager>
             Patch patch = FindPatchByGamePath(m_CurDownLoad.FileName);
             if (patch!=null&&!m_AlreadyDownList.Contains(patch))
             {
-                curAlreadySize = m_CurDownLoad.GetProgess()*patch.Size;
+                curAlreadySize = m_CurDownLoad.GetProcess()*patch.Size;
             }
         }
         return alreadySize + curAlreadySize;

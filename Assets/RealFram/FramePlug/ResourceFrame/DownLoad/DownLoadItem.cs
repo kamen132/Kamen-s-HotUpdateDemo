@@ -18,25 +18,25 @@ public abstract class DownLoadItem
     /// 资源下载存放路径，不包含文件
     /// </summary>
     protected string m_SavePath;
-    public string SavePath { get { return SavePath; } }
+    public string SavePath { get { return m_SavePath; } }
 
     /// <summary>
     /// 文件名 不包含后缀
     /// </summary>
     protected string m_FileNameWithoutExt;
-    public string FileNameWithoutExt { get { return FileNameWithoutExt; } }
+    public string FileNameWithoutExt { get { return m_FileNameWithoutExt; } }
 
     /// <summary>
     /// 文件后缀
     /// </summary>
     protected string m_FileExt;
-    public string FileExt { get { return FileExt; } }
+    public string FileExt { get { return m_FileExt; } }
 
     /// <summary>
     /// 文件名 包含后缀
     /// </summary>
     protected string m_FileName;
-    public string FileName { get { return FileName; } }
+    public string FileName { get { return m_FileName; } }
 
     /// <summary>
     /// 下载文件全路径  路径+文件名+后缀
@@ -87,7 +87,7 @@ public abstract class DownLoadItem
     /// 获取下载进度
     /// </summary>
     /// <returns></returns>
-    public abstract float GetProgess();
+    public abstract float GetProcess();
 
     /// <summary>
     /// 获取当前下载文件的大小
