@@ -28,15 +28,22 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager>
         TextAsset dllText = ResourceManager.Instance.LoadResource<TextAsset>(DLLPATH);
         //PDB文件，可调试，日志报错
         TextAsset pdBText = ResourceManager.Instance.LoadResource<TextAsset>(PDBPATH);
-
-        using (MemoryStream ms=new MemoryStream(dllText.bytes))
-        {
-            using (MemoryStream p = new MemoryStream(pdBText.bytes))
-            {
-                m_AppDomain.LoadAssembly(ms,p,new PdbReaderProvider());
-            }
-        }
-
+        
+        
+        // //用下面的会报错：ObjectDisposedException: Cannot access a closed Stream.
+        // /**
+        // using (MemoryStream fs = new MemoryStream(dll))
+        // {
+        //     using (MemoryStream p = new MemoryStream(pdb))
+        //     {
+        //         appdomain.LoadAssembly(fs, p, new Mono.Cecil.Pdb.PdbReaderProvider());
+        //     }
+        // }
+        // **/
+        
+        MemoryStream ms = new MemoryStream(dllText.bytes);
+        MemoryStream p = new MemoryStream(pdBText.bytes);
+        m_AppDomain.LoadAssembly(ms,p,new PdbReaderProvider());
         InitializeILRuntime();
         OnHotFixLoaded();
     }
@@ -48,7 +55,7 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager>
 
     void OnHotFixLoaded()
     {
-        m_AppDomain.Invoke("HotFix.Class1", "staticFunTest", null, null);
+        m_AppDomain.Invoke("HotFix.TestClass", "staticFunTest", null, null);
     }
     
 }
