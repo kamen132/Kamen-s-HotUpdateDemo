@@ -14,7 +14,34 @@ public class HotFixUI : Window
         m_Panel.m_progress.text = string.Format("下载中。。。{0}M/s", 0);
         HotPatchManager.Instance.ServerInfoError += ServerInfoError;
         HotPatchManager.Instance.ItemError += ItemError;
-        CheckVersion();
+        
+        //解压区分平台
+#if UNITY_EDITOR
+        if (HotPatchManager.Instance.IsEditHotFix)
+        {
+            Debug.LogError("开启编译器热更模式！！！！！  Editor热更模式已打开");
+            HotFix();
+        }
+       
+        StartOnFinish();
+#else
+         //验证是否需要解压
+        if (HotPatchManager.Instance.ComputeUnPackFile())
+        {
+            m_Panel.m_progress.text = "解压中";
+            HotPatchManager.Instance.StartUnPackFile(() =>
+            {
+                HotFix();
+                m_SumTime = 0;
+            });
+        }
+        else
+        {
+            HotFix();
+        }
+
+#endif
+
     }
 
     void HotFix()
@@ -33,7 +60,8 @@ public class HotFixUI : Window
         }
         else
         {
-            
+            //检查版本
+            CheckVersion();
         }
     }
 
@@ -99,12 +127,21 @@ public class HotFixUI : Window
     private float m_SumTime = 0;
     public override void OnUpdate()
     {
+        if (HotPatchManager.Instance.StartUnPack)
+        {
+            m_SumTime += Time.deltaTime;
+            m_Panel.m_Image.fillAmount = HotPatchManager.Instance.GetUnPackProgress();
+            float speed = (HotPatchManager.Instance.AlreadyUnPackSize / 1024.0f) / m_SumTime;
+            m_Panel.m_progress.text = string.Format(string.Format("解压中 {0:F}M/s", speed));
+        }
+        
+        
         if (HotPatchManager.Instance.m_StartDownLoad)
         {
             m_SumTime += Time.deltaTime;
             m_Panel.m_Image.fillAmount = HotPatchManager.Instance.GetProgress();
             float speed = (HotPatchManager.Instance.GetLoadSize() / 1024.0f) / m_SumTime;
-            m_Panel.m_progress.text = string.Format(string.Format("{0:F}M/s", speed));
+            m_Panel.m_progress.text = string.Format(string.Format("热更下载中 {0:F}M/s", speed));
         }
     }
 

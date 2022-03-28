@@ -162,11 +162,11 @@ public class UIManager : Singleton<UIManager>
             GameObject wndObj = null;
             if (resource)
             {
-                wndObj=GameObject.Instantiate(Resources.Load<GameObject>(wndName.Replace(".prefab",""))) as GameObject;
+                wndObj = GameObject.Instantiate(Resources.Load<GameObject>(wndName.Replace(".prefab", "")));
             }
             else
             {
-                ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wndName, false, false);
+                wndObj = ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wndName, false, false);
             }
             if (wndObj == null)
             {

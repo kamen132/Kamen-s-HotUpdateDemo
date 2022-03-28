@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -6,6 +7,11 @@ using UnityEngine;
 
 public class BunldeHotfix : EditorWindow
 {
+   [MenuItem ("Tools/打包")]
+   public static void NormalBuild () {
+      BundleEditor.Build ();
+   }
+   
    [MenuItem("Kamen/Tools/打包热更包")]
    static void Init()
    {
@@ -54,5 +60,14 @@ public class BunldeHotfix : EditorWindow
       }
       
       GUILayout.EndHorizontal();
+      boolValue=Convert.ToBoolean(PlayerPrefs.GetInt("HotFixEditorSwitch"));
+      bool newValue = GUILayout.Toggle(boolValue, "編譯器熱更開關");
+      if (newValue != boolValue)
+      {
+         boolValue = newValue;
+         PlayerPrefs.SetInt("HotFixEditorSwitch", Convert.ToInt32(boolValue));
+      }
+      
    }
+   private bool boolValue;
 }

@@ -13,7 +13,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{52e9892e-eaed-1dc9-3139-d32ea5236229}</ProjectGuid>
+    <ProjectGuid>{4d7e8d05-9073-c378-4273-00163907f4d6}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -55,10 +55,12 @@
      <Compile Include="Assets\RealFram\Editor\RealFramConfig.cs" />
      <Compile Include="Assets\RealFram\Editor\Resource\BundleEditor.cs" />
      <Compile Include="Assets\RealFram\Editor\Resource\ABConfig.cs" />
+     <Compile Include="Assets\RealFram\Editor\Resource\OpenFileName.cs" />
      <Compile Include="Assets\RealFram\Editor\Resource\OfflineDataEditor.cs" />
      <Compile Include="Assets\RealFram\Editor\Config\DataEditor.cs" />
      <Compile Include="Assets\RealFram\Editor\Resource\BuildApp.cs" />
      <Compile Include="Assets\Editor\TestEditor.cs" />
+     <Compile Include="Assets\RealFram\Editor\Resource\BunldeHotfix.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.18f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -294,31 +296,40 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.18f1c1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="log4netPlastic">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
  </Reference>
  <Reference Include="EPPlus">
- <HintPath>I:/AssetBundleAndILR/Assets/RealFram/FramePlug/Plugins/Editor/EPPlus.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Assets/RealFram/FramePlug/Plugins/Editor/EPPlus.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Plastic.Newtonsoft.Json">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.StandardEvents">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.analytics@3.6.11/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.analytics@3.6.11/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.analytics@3.6.11/Unity.Analytics.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.analytics@3.6.11/Unity.Analytics.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Plastic.Antlr3.Runtime">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.analytics@3.6.11/Unity.Analytics.Tracker.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.analytics@3.6.11/Unity.Analytics.Tracker.dll</HintPath>
  </Reference>
  <Reference Include="unityplastic">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.collab-proxy@1.9.0/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
+ </Reference>
+ <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Assets/ILRuntime/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
+ </Reference>
+ <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Assets/ILRuntime/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+ </Reference>
+ <Reference Include="ILRuntime.Mono.Cecil">
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Assets/ILRuntime/Plugins/ILRuntime.Mono.Cecil.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
- <HintPath>I:/AssetBundleAndILR/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.18f1c1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -669,112 +680,116 @@
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.18f1c1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.XDocument.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.TestRunner">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.TestRunner">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="Purchasing.Common">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Purchasing.Common.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Purchasing.Common.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing.SecurityStub">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.SecurityStub.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.SecurityStub.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Analytics">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Analytics.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.SpatialTracking">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Analytics.DataPrivacy">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing.SecurityCore">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.SecurityCore.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.SecurityCore.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing.Codeless">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.Codeless.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.Codeless.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.XR.LegacyInputHelpers">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Purchasing.Stores">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.Stores.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Purchasing.Stores.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.XR.LegacyInputHelpers">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Monetization">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Purchasing">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.SpatialTracking">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements.Editor">
- <HintPath>I:/AssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
+ <HintPath>I:/ABAndILR/UnityAssetBundleAndILR/Library/ScriptAssemblies/UnityEngine.Advertisements.Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{9c310600-55e1-e329-cbb2-c1e1e363e884}</Project>
+      <Project>{32870d02-bf96-4a98-0bd2-463a570672c9}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
     <ProjectReference Include="Resource.csproj">
-      <Project>{7508f685-328e-9f96-9af9-bdb4cb94adfc}</Project>
+      <Project>{ec3926b9-d3cd-bd86-4fc9-471215befac0}</Project>
       <Name>Resource</Name>
     </ProjectReference>
     <ProjectReference Include="UIManager.csproj">
-      <Project>{46d94394-14f4-1ba1-f3e4-ff13396bc784}</Project>
+      <Project>{ae5ec36d-b71d-815b-86b5-797e70db2fa6}</Project>
       <Name>UIManager</Name>
     </ProjectReference>
     <ProjectReference Include="Base.csproj">
-      <Project>{9956b80e-9276-1438-105b-0740c881fe3f}</Project>
+      <Project>{5e5ef7e2-dddb-2416-ed30-9479b1c8acd9}</Project>
       <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="ILRuntime.csproj">
+      <Project>{ae8ded04-79d3-3475-d5ef-a268924f99e5}</Project>
+      <Name>ILRuntime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HotFixPanel : MonoBehaviour
 {
     public Image m_Image;
-    public TextMeshProUGUI m_progress;
+    public Text m_progress;
     public GameObject m_InfoPanel;
-    public TextMeshProUGUI m_HottextInfo;
+    public Text m_HottextInfo;
 }

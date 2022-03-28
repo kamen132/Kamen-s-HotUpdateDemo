@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Patches xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1">
-  <Files Name="attack" Url="http://127.0.0.1/hotfix/0.1/1/attack" Platform="StandaloneWindows64" MD5="e9468ee74d4406ff13fbab408efcb360" Size="794.036133" />
-  <Files Name="StandaloneWindows64" Url="http://127.0.0.1/hotfix/0.1/1/StandaloneWindows64" Platform="StandaloneWindows64" MD5="b66015396710c7dab810937c93d76979" Size="1.84765625" />
+  <Files Name="assetbundleconfig" Url="http://127.0.0.1/hotfix/0.1/1/assetbundleconfig" Platform="StandaloneWindows64" MD5="449700aa0e03acab9d427caa7ab937ad" Size="2.29101563" />
+  <Files Name="StandaloneWindows64" Url="http://127.0.0.1/hotfix/0.1/1/StandaloneWindows64" Platform="StandaloneWindows64" MD5="6fb4824a1beb9e1f6d1cd800023dae87" Size="1.86914063" />
+  <Files Name="ugui" Url="http://127.0.0.1/hotfix/0.1/1/ugui" Platform="StandaloneWindows64" MD5="3fdf74ba7a8cad3d8a5031af910e5b68" Size="1687.58789" />
 </Patches>

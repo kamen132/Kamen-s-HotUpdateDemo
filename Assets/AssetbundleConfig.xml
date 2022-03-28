@@ -5,6 +5,8 @@
   </ABList>
   <ABList Path="Assets/GameData/Data/Binary/BuffData.bytes" Crc="697814829" ABName="bytes" AssetName="BuffData.bytes" />
   <ABList Path="Assets/GameData/Data/Binary/MonsterData.bytes" Crc="1289056854" ABName="bytes" AssetName="MonsterData.bytes" />
+  <ABList Path="Assets/GameData/HotFix/HotFix.dll.txt" Crc="1855002823" ABName="hotfix" AssetName="HotFix.dll.txt" />
+  <ABList Path="Assets/GameData/HotFix/HotFix.pdb.txt" Crc="2925763606" ABName="hotfix" AssetName="HotFix.pdb.txt" />
   <ABList Path="Assets/GameData/Prefabs/UGUI/Panel/LoadingPanel.prefab" Crc="968375833" ABName="loadingpanel" AssetName="LoadingPanel.prefab" />
   <ABList Path="Assets/GameData/Prefabs/UGUI/Panel/MenuPanel.prefab" Crc="2681775694" ABName="menupanel" AssetName="MenuPanel.prefab" />
   <ABList Path="Assets/GameData/Prefabs/Effect/ParticleTest1.prefab" Crc="2774616854" ABName="particletest1" AssetName="ParticleTest1.prefab" />
@@ -19,4 +21,5 @@
   <ABList Path="Assets/GameData/UGUI/Test1.png" Crc="3547477655" ABName="ugui" AssetName="Test1.png" />
   <ABList Path="Assets/GameData/UGUI/test2.png" Crc="371445476" ABName="ugui" AssetName="test2.png" />
   <ABList Path="Assets/GameData/UGUI/test3.png" Crc="725870420" ABName="ugui" AssetName="test3.png" />
+  <ABList Path="Assets/GameData/UGUI/Test4.png" Crc="462600679" ABName="ugui" AssetName="Test4.png" />
 </AssetBundleConfig>

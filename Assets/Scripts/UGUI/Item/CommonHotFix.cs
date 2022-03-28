@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class CommonHotFix : BaseItem
 {
-    public TextMeshProUGUI m_Des;
+    public Text m_Des;
     public Button m_ButtonConfire;
     public Button m_BuutonCanel;
     public void Show(string des,UnityAction confirmActcion,UnityAction CancleAciotn)

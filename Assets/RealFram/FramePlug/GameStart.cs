@@ -26,7 +26,7 @@ public class GameStart : MonoSingleton<GameStart>
         UIManager.Instance.PopUpWnd(ConStr.HOTFIXPANEL, resource: true);
     }
 
-    public IEnumerator StartGame(Image image,TextMeshProUGUI text)
+    public IEnumerator StartGame(Image image,Text text)
     {
         image.fillAmount = 0;
         yield return null;

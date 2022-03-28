@@ -18,7 +18,7 @@ public class MenuUi : Window
         ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UGUI/Test1.png", OnLoadSpriteTest1, LoadResPriority.RES_MIDDLE, true);
         ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UGUI/test3.png", OnLoadSpriteTest3, LoadResPriority.RES_HIGHT, true);
         ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UGUI/test2.png", OnLoadSpriteTest2, LoadResPriority.RES_HIGHT, true);
-
+        ResourceManager.Instance.AsyncLoadResource("Assets/GameData/UGUI/Test4.png",OnLoadSpriteTest4, LoadResPriority.RES_SLOW, true);
         //LoadMonsterData();
     }
 
@@ -61,6 +61,15 @@ public class MenuUi : Window
             Sprite sp = obj as Sprite;
             m_MainPanel.m_Test2.sprite = sp;
             Debug.Log("图片2加载出来了");
+        }
+    }
+    void OnLoadSpriteTest4(string path, Object obj, object param1 = null, object param2 = null, object param3 = null)
+    {
+        if (obj != null)
+        {
+            Sprite sp = obj as Sprite;
+            m_MainPanel.m_Test4.sprite = sp;
+            Debug.Log("图片4加载出来了");
         }
     }
 

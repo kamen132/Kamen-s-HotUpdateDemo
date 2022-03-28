@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class AssetBundleManager : Singleton<AssetBundleManager>
@@ -18,7 +19,11 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     {
         get
         {
-            return Application.streamingAssetsPath + "/";
+#if UNITY_ANDROID
+            return Application.persistentDataPath + "/Origin/";
+#else
+            return Application.streamingAssetsPath+ "/";
+#endif
         }
     }
     /// <summary>
@@ -36,7 +41,12 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         string configPath = ABLoadPath + m_ABConfigABName;
         string hotABPath = HotPatchManager.Instance.ComputeABPath(m_ABConfigABName);
         configPath = string.IsNullOrEmpty(hotABPath) ? configPath : hotABPath;
-        AssetBundle configAB = AssetBundle.LoadFromFile(configPath);
+
+        //解密加载ab包
+        byte[] bytes = AES.AESFileByteDecrpty(configPath, "Kamen");
+
+
+        AssetBundle configAB = AssetBundle.LoadFromMemory(bytes);
         TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
         if (textAsset == null)
         {
@@ -119,8 +129,11 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
             //獲取ab包路徑
             string hotABPath = HotPatchManager.Instance.ComputeABPath(name);
             //如果有熱更的話 走熱更的  如果沒有熱更則走本地AB
-            string fullPath = string.IsNullOrEmpty(hotABPath)? ABLoadPath+name: hotABPath;
-            assetBundle = AssetBundle.LoadFromFile(fullPath);
+            string fullPath = string.IsNullOrEmpty(hotABPath) ? ABLoadPath + name : hotABPath;
+
+            //加密解密   可能会出现性能问题
+            byte[] bytes = AES.AESFileByteDecrpty(fullPath, "Kamen");
+            assetBundle = AssetBundle.LoadFromMemory(bytes);
 
             if (assetBundle == null)
             {

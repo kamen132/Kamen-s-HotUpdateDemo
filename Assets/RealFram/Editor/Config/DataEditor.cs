@@ -60,7 +60,7 @@ public class DataEditor
     public static void AllXmlToBinary()
     {
          string path = Application.dataPath.Replace("Assets", "") + XmlPath;
-         Debug.LogError("path=="+path);
+    
         string[] filesPath = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
         if (filesPath == null || filesPath.Length <= 0)
         {

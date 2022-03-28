@@ -14,4 +14,5 @@ public class MenuPanel : MonoBehaviour
     public Image m_Test1;
     public Image m_Test2;
     public Image m_Test3;
+    public Image m_Test4;
 }
