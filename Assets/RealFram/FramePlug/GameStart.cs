@@ -29,6 +29,8 @@ public class GameStart : MonoSingleton<GameStart>
     public IEnumerator StartGame(Image image,Text text)
     {
         image.fillAmount = 0;
+        //加载DLL
+        ILRuntimeManager.Instance.Init();
         yield return null;
         text.text = "加载本地数据中.....";
         AssetBundleManager.Instance.LoadAssetBundleConfig();

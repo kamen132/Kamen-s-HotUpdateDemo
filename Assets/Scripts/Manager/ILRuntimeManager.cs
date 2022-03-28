@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ILRuntime.Runtime.Enviorment;
 using System.IO;
+using ILRuntime.Mono.Cecil.Pdb;
 public class ILRuntimeManager : Singleton<ILRuntimeManager>
 {
     //热更dll加载路径
@@ -32,8 +33,22 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager>
         {
             using (MemoryStream p = new MemoryStream(pdBText.bytes))
             {
-                //m_AppDomain.LoadAssembly(ms,p,Mono);
+                m_AppDomain.LoadAssembly(ms,p,new PdbReaderProvider());
             }
         }
+
+        InitializeILRuntime();
+        OnHotFixLoaded();
     }
+
+    void InitializeILRuntime()
+    {
+        
+    }
+
+    void OnHotFixLoaded()
+    {
+        m_AppDomain.Invoke("HotFix.Class1", "staticFunTest", null, null);
+    }
+    
 }
