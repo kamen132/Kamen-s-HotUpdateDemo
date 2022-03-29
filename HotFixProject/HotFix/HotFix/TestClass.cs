@@ -9,9 +9,33 @@ namespace HotFix
 {
     class TestClass
     {
+        private string str;
+        public string Str
+        {
+            get
+            {
+                return str;
+            }
+        }
+        public TestClass()
+        {
+
+        }
+
+        public TestClass(string str)
+        {
+            this.str = str;
+        }
+
         public static void staticFunTest()
         {
             Debug.Log("Test HotFix 调用热更代码成功！！！！");
         }
+
+        public static void staticFunTest2(string str)
+        {
+            Debug.Log("Test HotFix 调用热更代码成功！！！！2  "+ str);
+        }
+
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ILRuntime.Runtime.Enviorment;
 using System.IO;
+using ILRuntime.CLR.Method;
+using ILRuntime.CLR.TypeSystem;
 using ILRuntime.Mono.Cecil.Pdb;
 public class ILRuntimeManager : Singleton<ILRuntimeManager>
 {
@@ -55,7 +57,34 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager>
 
     void OnHotFixLoaded()
     {
-        m_AppDomain.Invoke("HotFix.TestClass", "staticFunTest", null, null);
+        //第一个简单方法的调用
+        //m_AppDomain.Invoke("HotFix.TestClass", "staticFunTest", null, null);
+        
+        //先单独获取类，之后一直使用这个类来调用
+        IType type = m_AppDomain.LoadedTypes["HotFix.TestClass"];
+        
+        //第一种含参调用
+        // //根据方法名和参数个数获取方法
+        // IMethod method = type.GetMethod("staticFunTest",0);
+        // m_AppDomain.Invoke(method, null, null);
+        
+        //第二种含参调用
+        //根据获取函数来调用有参的函数
+        IType stringType = m_AppDomain.GetType(typeof(string));
+        List<IType> paraList = new List<IType>();
+        paraList.Add(stringType);
+        IMethod method = type.GetMethod("staticFunTest2",paraList,null);
+        m_AppDomain.Invoke(method, null, "类型2执行成功");
+        
+        
+        //实例化类
+        //第一种实例化  （带参）
+        object obj = m_AppDomain.Instantiate("HotFix.TestClass",new object[]{"测试成功！！！"});
+        //第二种实例化 （不带参）
+        //object obj = ((ILType) type).Instantiate();
+        string str =(string) m_AppDomain.Invoke("HotFix.TestClass", "get_Str", obj, null);
+        Debug.LogError("实例化：" + str);
+
     }
     
 }
