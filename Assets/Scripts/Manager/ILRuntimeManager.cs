@@ -84,7 +84,17 @@ public class ILRuntimeManager : Singleton<ILRuntimeManager>
         //object obj = ((ILType) type).Instantiate();
         string str =(string) m_AppDomain.Invoke("HotFix.TestClass", "get_Str", obj, null);
         Debug.LogError("实例化：" + str);
-
+        
+        
+        //调用泛型方法
+        //第一种方法
+        IType[] genericArguments=new IType[]{stringType};
+        m_AppDomain.InvokeGenericMethod("HotFix.TestClass", "GenericMethod", genericArguments, null, "Kamen");
+        //第二种方法
+        paraList.Clear();
+        paraList.Add(stringType);
+        method = type.GetMethod("GenericMethod",paraList,genericArguments,null);
+        m_AppDomain.Invoke(method, null, "Kamen2222"); 
     }
     
 }

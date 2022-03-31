@@ -37,5 +37,9 @@ namespace HotFix
             Debug.Log("Test HotFix 调用热更代码成功！！！！2  "+ str);
         }
 
+        public static void GenericMethod<T>(T a)
+        {
+            Debug.LogError("TestClass GenericMethod  a=" + a);
+        }
     }
 }
