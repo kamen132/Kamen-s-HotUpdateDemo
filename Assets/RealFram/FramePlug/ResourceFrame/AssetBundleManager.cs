@@ -15,7 +15,7 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
     //AssetBundleItem类对象池
     protected ClassObjectPool<AssetBundleItem> m_AssetBundleItemPool = ObjectManager.Instance.GetOrCreatClassPool<AssetBundleItem>(500);
 
-    protected string ABLoadPath
+    public string ABLoadPath
     {
         get
         {
@@ -36,7 +36,6 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         if (!ResourceManager.Instance.m_LoadFormAssetBundle)
             return false;
 #endif
-
         m_ResouceItemDic.Clear();
         string configPath = ABLoadPath + m_ABConfigABName;
         string hotABPath = HotPatchManager.Instance.ComputeABPath(m_ABConfigABName);
@@ -91,11 +90,6 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
         if (!m_ResouceItemDic.TryGetValue(crc, out item) || item == null)
         {
             Debug.LogError(string.Format("LoadResourceAssetBundle error: can not find crc {0} in AssetBundleConfig", crc.ToString()));
-            return item;
-        }
-
-        if (item.m_AssetBundle != null)
-        {
             return item;
         }
 

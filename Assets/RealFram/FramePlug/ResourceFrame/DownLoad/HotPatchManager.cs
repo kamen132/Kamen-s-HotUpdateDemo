@@ -387,7 +387,6 @@ public class HotPatchManager : Singleton<HotPatchManager>
             FileTool.CreateFile(m_serverXmlPath,request.downloadHandler.data);
             if (File.Exists(m_serverXmlPath))
             {
-                Debug.LogError("开始读取信息啊");
                 m_serverInfo = BinarySerializeOpt.XmlDeserialize(m_serverXmlPath, typeof(ServerInfo)) as ServerInfo;
             }
             else

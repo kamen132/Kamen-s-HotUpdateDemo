@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace HotFix
 {
+    public delegate void TestDelegateMethod(int a);
+    public delegate string TestDelegateFunction(int a);
     class TestClass
     {
         private string str;

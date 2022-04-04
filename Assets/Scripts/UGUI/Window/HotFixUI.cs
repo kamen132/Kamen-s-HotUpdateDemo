@@ -6,9 +6,9 @@ using UnityEngine;
 public class HotFixUI : Window
 {
     private HotFixPanel m_Panel;
-    public override void Awake(params object[] paralist)
+    public override void Awake(object param1=null,
+        object param2=null,object param3=null)
     {
-        base.Awake(paralist);
         m_Panel = GameObject.GetComponent<HotFixPanel>();
         m_Panel.m_Image.fillAmount = 0;
         m_Panel.m_progress.text = string.Format("下载中。。。{0}M/s", 0);
@@ -22,8 +22,12 @@ public class HotFixUI : Window
             Debug.LogError("开启编译器热更模式！！！！！  Editor热更模式已打开");
             HotFix();
         }
+        else
+        {
+            StartOnFinish();
+        }
        
-        StartOnFinish();
+       
 #else
          //验证是否需要解压
         if (HotPatchManager.Instance.ComputeUnPackFile())

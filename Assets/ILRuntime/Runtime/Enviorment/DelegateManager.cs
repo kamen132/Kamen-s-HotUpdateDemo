@@ -76,18 +76,15 @@ namespace ILRuntime.Runtime.Enviorment
             methods.Add(node);
             RegisterDelegateConvertor<Action<T1, T2, T3, T4>>(defaultConverter);
         }
-
-#if NET_4_6 || NET_STANDARD_2_0
-        public void RegisterMethodDelegate<T1, T2, T3, T4, T5>()
+        
+        public void RegisterMethodDelegate<T1, T2, T3, T4,T5>()
         {
             DelegateMapNode node = new Enviorment.DelegateManager.DelegateMapNode();
-            node.Adapter = new MethodDelegateAdapter<T1, T2, T3, T4, T5>();
-            node.ParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5) };
+            node.Adapter = new MethodDelegateAdapter<T1, T2, T3, T4,T5>();
+            node.ParameterTypes = new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) ,typeof(T5)};
             methods.Add(node);
-            RegisterDelegateConvertor<Action<T1, T2, T3, T4, T5>>(defaultConverter);
+            RegisterDelegateConvertor<Action<T1, T2, T3, T4,T5>>(defaultConverter);
         }
-#endif
-
         public void RegisterFunctionDelegate<TResult>()
         {
             DelegateMapNode node = new Enviorment.DelegateManager.DelegateMapNode();

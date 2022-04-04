@@ -29,11 +29,11 @@ public class GameStart : MonoSingleton<GameStart>
     public IEnumerator StartGame(Image image,Text text)
     {
         image.fillAmount = 0;
-        //加载DLL
-        ILRuntimeManager.Instance.Init();
         yield return null;
-        text.text = "加载本地数据中.....";
+        //加载DLL
         AssetBundleManager.Instance.LoadAssetBundleConfig();
+        text.text = "加载本地数据中.....";
+        HotFixBinding.instance.Init();
         image.fillAmount = 0.2f;
         text.text = "加载数据表.....";
         LoadConfiger();
@@ -43,13 +43,14 @@ public class GameStart : MonoSingleton<GameStart>
         image.fillAmount = 0.9f;
         text.text = "Load Scene.....";
         GameMapManager.Instance.Init(this);
+        //绑定注册
         image.fillAmount = 1;
     }
     //注册UI窗口
     void RegisterUI()
     {
-        UIManager.Instance.Register<MenuUi>(ConStr.MENUPANEL);
-        UIManager.Instance.Register<LoadingUi>(ConStr.LOADINGPANEL);
+        UIManager.Instance.Register<Window>(ConStr.MENUPANEL);
+        UIManager.Instance.Register<Window>(ConStr.LOADINGPANEL);
         UIManager.Instance.Register<HotFixUI>(ConStr.HOTFIXPANEL);
     }
 
